@@ -33,15 +33,15 @@ public class CourseController {
 		return ResponseEntity.ok(service.getById(id));
 	}
 
-	@PostMapping("/newCourse")
+	@PostMapping("/newcourse")
 	public void addCourse(@RequestBody Course c) {
 		service.saveCourse(c);
 	}
 
 	@PutMapping("/course/{id}")
-	public ResponseEntity<Course> updateCourse(@PathVariable int id, @RequestBody Course c1) {
+	public ResponseEntity<Course> updateCourse(@PathVariable int id, @RequestBody Course c) {
 		Course course = service.getById(id);
-		course.setCourseName(c1.getCourseName());
+		course.setCourseName(c.getCourseName());
 		service.saveCourse(course);
 		return ResponseEntity.ok(course);
 	}
