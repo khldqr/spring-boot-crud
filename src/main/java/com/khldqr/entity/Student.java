@@ -1,11 +1,16 @@
 package com.khldqr.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +32,9 @@ public class Student {
 	private String phoneNo;
 
 	private String address;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "gradeNo")
+	private List<Grade> grades = new ArrayList<>();
 
 	public Student() {
 
@@ -83,6 +91,14 @@ public class Student {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public List<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(List<Grade> grades) {
+		this.grades = grades;
 	}
 
 }
