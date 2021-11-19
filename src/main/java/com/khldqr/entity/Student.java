@@ -36,21 +36,29 @@ public class Student {
 	@JoinColumn(name = "gradeNo")
 	private List<Grade> grades = new ArrayList<>();
 
-	public Student() {
-
-	}
-
-	public Student(String studentName, String sex, LocalDate birthday, String phoneNo, String address) {
-
+	public Student(int studentId, String studentName, String sex, LocalDate birthday, String phoneNo, String address,
+			List<Grade> grades) {
+		super();
+		this.studentId = studentId;
 		this.studentName = studentName;
 		this.sex = sex;
 		this.birthday = birthday;
 		this.phoneNo = phoneNo;
 		this.address = address;
+		this.grades = grades;
+	}
+
+	public Student() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getStudentId() {
 		return studentId;
+	}
+
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
 	}
 
 	public String getStudentName() {

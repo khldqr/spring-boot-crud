@@ -26,9 +26,11 @@ public class Course {
 
 	}
 
-	public Course(int courseNo, String courseName) {
+	public Course(int courseNo, String courseName, List<Grade> grades) {
+		super();
 		this.courseNo = courseNo;
 		this.courseName = courseName;
+		this.grades = grades;
 	}
 
 	public int getCourseNo() {
