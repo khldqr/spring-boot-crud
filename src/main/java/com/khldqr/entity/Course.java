@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -18,8 +17,7 @@ public class Course {
 
 	private String courseName;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "gradeNo")
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
 	private List<Grade> grades = new ArrayList<>();
 
 	public Course() {

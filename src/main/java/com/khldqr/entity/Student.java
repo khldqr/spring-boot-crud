@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,8 +31,7 @@ public class Student {
 	private String phoneNo;
 
 	private String address;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "gradeNo")
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	private List<Grade> grades = new ArrayList<>();
 
 	public Student(int studentId, String studentName, String sex, LocalDate birthday, String phoneNo, String address,
