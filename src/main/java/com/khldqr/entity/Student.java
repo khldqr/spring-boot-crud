@@ -1,8 +1,7 @@
 package com.khldqr.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -31,11 +30,17 @@ public class Student {
 	private String phoneNo;
 
 	private String address;
+
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-	private List<Grade> grades = new ArrayList<>();
+	private Set<StudentCourseGradeAssociation> associations;
+
+	public Student() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public Student(int studentId, String studentName, String sex, LocalDate birthday, String phoneNo, String address,
-			List<Grade> grades) {
+			Set<StudentCourseGradeAssociation> associations) {
 		super();
 		this.studentId = studentId;
 		this.studentName = studentName;
@@ -43,12 +48,7 @@ public class Student {
 		this.birthday = birthday;
 		this.phoneNo = phoneNo;
 		this.address = address;
-		this.grades = grades;
-	}
-
-	public Student() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.associations = associations;
 	}
 
 	public int getStudentId() {
@@ -99,12 +99,12 @@ public class Student {
 		this.address = address;
 	}
 
-	public List<Grade> getGrades() {
-		return grades;
+	public Set<StudentCourseGradeAssociation> getAssociations() {
+		return associations;
 	}
 
-	public void setGrades(List<Grade> grades) {
-		this.grades = grades;
+	public void setAssociations(Set<StudentCourseGradeAssociation> associations) {
+		this.associations = associations;
 	}
 
 }

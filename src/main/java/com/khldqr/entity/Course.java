@@ -1,7 +1,6 @@
 package com.khldqr.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,17 +17,17 @@ public class Course {
 	private String courseName;
 
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-	private List<Grade> grades = new ArrayList<>();
+	private Set<StudentCourseGradeAssociation> associations;
 
 	public Course() {
 
 	}
 
-	public Course(int courseNo, String courseName, List<Grade> grades) {
+	public Course(int courseNo, String courseName, Set<StudentCourseGradeAssociation> associations) {
 		super();
 		this.courseNo = courseNo;
 		this.courseName = courseName;
-		this.grades = grades;
+		this.associations = associations;
 	}
 
 	public int getCourseNo() {
@@ -47,12 +46,12 @@ public class Course {
 		this.courseName = courseName;
 	}
 
-	public List<Grade> getGrades() {
-		return grades;
+	public Set<StudentCourseGradeAssociation> getAssociations() {
+		return associations;
 	}
 
-	public void setGrades(List<Grade> grades) {
-		this.grades = grades;
+	public void setAssociations(Set<StudentCourseGradeAssociation> associations) {
+		this.associations = associations;
 	}
 
 }
