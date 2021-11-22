@@ -14,41 +14,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.khldqr.entity.Course;
-import com.khldqr.service.CourseService;
+import com.khldqr.exception.NothingFoundException;
+import com.khldqr.repository.CourseRepository;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
 public class CourseController {
 
 	@Autowired
-	private CourseService service;
+	private CourseRepository repo;
 
 	@GetMapping("/courses")
 	public List<Course> getAllStudents() {
-		return service.getAll();
+		return repo.findAll();
 	}
 
 	@GetMapping("/course/{id}")
 	public ResponseEntity<Course> getCourseById(@PathVariable int id) {
-		return ResponseEntity.ok(service.getById(id));
-	}
-
-	@PostMapping("/newcourse")
-	public void addCourse(@RequestBody Course c) {
-		service.saveCourse(c);
-	}
-
-	@PutMapping("/course/{id}")
-	public ResponseEntity<Course> updateCourse(@PathVariable int id, @RequestBody Course c) {
-		Course course = service.getById(id);
-		course.setCourseName(c.getCourseName());
-		service.saveCourse(course);
+		Course course = repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
 		return ResponseEntity.ok(course);
 	}
 
-	@DeleteMapping("/course/{id}")
+	@PostMapping("/courses")
+	public void addCourse(@RequestBody Course c) {
+		repo.save(c);
+	}
+
+	@PutMapping("/courses/{id}")
+	public ResponseEntity<Course> updateCourse(@PathVariable int id, @RequestBody Course c) {
+		Course course = repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
+		course.setCourseName(c.getCourseName());
+		repo.save(c);
+		return ResponseEntity.ok(course);
+	}
+
+	@DeleteMapping("/courses/{id}")
 	public void deleteCourse(@PathVariable() int id) {
-		service.deleteCourse(id);
+		Course course = repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
+		repo.deleteById(id);
 	}
 
 }

@@ -14,43 +14,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.khldqr.entity.Student;
-import com.khldqr.service.StudentService;
+import com.khldqr.exception.NothingFoundException;
+import com.khldqr.repository.StudentRepository;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
 public class StudnetController {
 
 	@Autowired
-	private StudentService service;
+	private StudentRepository repo;
 
 	@GetMapping("/students")
 	public List<Student> getAllStudents() {
-		return service.getAll();
+		return repo.findAll();
 	}
 
-	@GetMapping("/student/{id}")
+	@GetMapping("/students/{id}")
 	public ResponseEntity<Student> getStudentById(@PathVariable int id) {
-		return ResponseEntity.ok(service.getById(id));
+		Student student = repo.findById(id).orElseThrow(() -> new NothingFoundException("student not found"));
+		return ResponseEntity.ok(student);
 	}
 
-	@PostMapping("/newstudent")
+	@PostMapping("/students")
 	public void addStudent(@RequestBody Student s) {
-		service.saveStudent(s);
+		repo.save(s);
 	}
 
-	@DeleteMapping("/student/{id}")
+	@DeleteMapping("/students/{id}")
 	public void deleteStudent(@PathVariable int id) {
-		service.deleteStudent(id);
+		Student student = repo.findById(id).orElseThrow(() -> new NothingFoundException("student not found"));
+		repo.deleteById(id);
 	}
 
-	@PutMapping("/student/{id}")
+	@PutMapping("/students/{id}")
 	public ResponseEntity<Student> updateStudent(@PathVariable int id, @RequestBody Student s) {
-		Student student = service.getById(id);
+		Student student = repo.findById(id).orElseThrow(() -> new NothingFoundException("student not found"));
 		student.setAddress(s.getAddress());
 		student.setSex(s.getSex());
 		student.setBirthday(s.getBirthday());
 		student.setPhoneNo(s.getPhoneNo());
-		service.saveStudent(student);
+		repo.save(student);
 		return ResponseEntity.ok(student);
 	}
 
