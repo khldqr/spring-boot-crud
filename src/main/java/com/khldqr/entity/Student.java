@@ -12,13 +12,15 @@ import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 
 public class Student {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int studentId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
 	private String studentName;
 
@@ -31,32 +33,29 @@ public class Student {
 
 	private String address;
 
-	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-	private Set<StudentCourseGradeAssociation> associations;
+	@OneToMany(orphanRemoval = true, mappedBy = "student", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("student")
+	private Set<Grade> grades;
 
 	public Student() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
-	public Student(int studentId, String studentName, String sex, LocalDate birthday, String phoneNo, String address,
-			Set<StudentCourseGradeAssociation> associations) {
-		super();
-		this.studentId = studentId;
+	public Student(int studentId, String studentName, String sex, LocalDate birthday, String phoneNo, String address) {
+
 		this.studentName = studentName;
 		this.sex = sex;
 		this.birthday = birthday;
 		this.phoneNo = phoneNo;
 		this.address = address;
-		this.associations = associations;
 	}
 
-	public int getStudentId() {
-		return studentId;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getStudentName() {
@@ -99,12 +98,12 @@ public class Student {
 		this.address = address;
 	}
 
-	public Set<StudentCourseGradeAssociation> getAssociations() {
-		return associations;
+	public Set<Grade> getGrades() {
+		return grades;
 	}
 
-	public void setAssociations(Set<StudentCourseGradeAssociation> associations) {
-		this.associations = associations;
+	public void setStudent(Set<Grade> grades) {
+		this.grades = grades;
 	}
 
 }

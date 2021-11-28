@@ -42,13 +42,15 @@ public class StudnetController {
 
 	@DeleteMapping("/students/{id}")
 	public void deleteStudent(@PathVariable int id) {
-		Student student = repo.findById(id).orElseThrow(() -> new NothingFoundException("student not found"));
+		// Student student = repo.findById(id).orElseThrow(() -> new
+		// NothingFoundException("student not found"));
 		repo.deleteById(id);
 	}
 
 	@PutMapping("/students/{id}")
 	public ResponseEntity<Student> updateStudent(@PathVariable int id, @RequestBody Student s) {
 		Student student = repo.findById(id).orElseThrow(() -> new NothingFoundException("student not found"));
+		student.setStudentName(s.getStudentName());
 		student.setAddress(s.getAddress());
 		student.setSex(s.getSex());
 		student.setBirthday(s.getBirthday());

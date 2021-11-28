@@ -29,28 +29,28 @@ public class CourseController {
 		return repo.findAll();
 	}
 
-	@GetMapping("/course/{id}")
+	@GetMapping("/courses/{id}")
 	public ResponseEntity<Course> getCourseById(@PathVariable int id) {
 		Course course = repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
 		return ResponseEntity.ok(course);
 	}
 
 	@PostMapping("/courses")
-	public void addCourse(@RequestBody Course c) {
-		repo.save(c);
+	public Course addCourse(@RequestBody Course c) {
+		return repo.save(c);
 	}
 
 	@PutMapping("/courses/{id}")
 	public ResponseEntity<Course> updateCourse(@PathVariable int id, @RequestBody Course c) {
 		Course course = repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
 		course.setCourseName(c.getCourseName());
-		repo.save(c);
+		repo.save(course);
 		return ResponseEntity.ok(course);
 	}
 
 	@DeleteMapping("/courses/{id}")
 	public void deleteCourse(@PathVariable() int id) {
-		Course course = repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
+		repo.findById(id).orElseThrow(() -> new NothingFoundException("course not found"));
 		repo.deleteById(id);
 	}
 

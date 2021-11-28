@@ -1,43 +1,40 @@
 package com.khldqr.entity;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-
 public class Grade {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int gradeNo;
-
+	int id;
 	private int courseMark;
-	@OneToMany(mappedBy = "grade", cascade = CascadeType.ALL)
-	private Set<StudentCourseGradeAssociation> associations;
+
+	@ManyToOne()
+	@JoinColumn(name = "course_id")
+	@JsonIgnoreProperties("grades")
+	private Course course;
+
+	@ManyToOne()
+	@JoinColumn(name = "student_id")
+	@JsonIgnoreProperties("grades")
+	private Student student;
 
 	public Grade() {
 
 	}
 
-	public Grade(int gradeNo, int courseMark, Set<StudentCourseGradeAssociation> associations) {
-		super();
-		this.gradeNo = gradeNo;
+	public Grade(int courseMark) {
+
 		this.courseMark = courseMark;
-		this.associations = associations;
-	}
 
-	public int getGradeNo() {
-		return gradeNo;
-	}
-
-	public void setGradeNo(int gradeNo) {
-		this.gradeNo = gradeNo;
 	}
 
 	public int getCourseMark() {
@@ -48,12 +45,20 @@ public class Grade {
 		this.courseMark = courseMark;
 	}
 
-	public Set<StudentCourseGradeAssociation> getAssociations() {
-		return associations;
+	public Course getCourse() {
+		return course;
 	}
 
-	public void setAssociations(Set<StudentCourseGradeAssociation> associations) {
-		this.associations = associations;
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 }
